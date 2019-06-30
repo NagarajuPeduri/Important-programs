@@ -1,4 +1,7 @@
-import java.io.*;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.*;
 import java.text.*;
 import java.math.*;
@@ -11,9 +14,8 @@ public class palindromeOfOddLength {
         BufferedReader read = new BufferedReader(new InputStreamReader(System.in));
         test = Integer.parseInt(read.readLine());
         while(test>0){
-            int n;
+            int n = Integer.parseInt(read.readLine());
             String s = read.readLine();
-            n = s.length();
             palind obj = new palind();
             System.out.println(obj.palindrome(n, s));
             test--;
@@ -47,15 +49,11 @@ class palind{
         for(int i=n-2; i>-1; i--)
             bh[i] = (bh[i+1]%m + ((int)str.charAt(i) * prime[n-i-1])%m)%m;
 
-        int ans = 0;
+        int ans = 1;
         for(int i=0; i<n-1; i++){
-            if(binarySearch(str, i, i, n)%2==1)
-                ans+=1;
-
-            if(str.charAt(i) == str.charAt(i+1)) {
-                if(binarySearch(str, i, i + 1, n)%2==1)
-                    ans+=1;
-            }
+            ans = Math.max(ans, binarySearch(str, i, i, n));            // for odd length
+            if(str.charAt(i) == str.charAt(i+1))
+                ans = Math.max(ans, binarySearch(str, i, i+1, n));           //for even length palindromic substrings
         }
         return ans;
 
